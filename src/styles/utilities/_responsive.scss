@@ -1,0 +1,40 @@
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+  
+  .text-center-mobile {
+    text-align: center;
+  }
+  
+  .flex-col-mobile {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-mobile {
+    padding: var(--space-4);
+  }
+  
+  .text-sm-mobile {
+    font-size: var(--text-sm);
+  }
+  
+  .grid-mobile {
+    grid-template-columns: 1fr;
+  }
+}

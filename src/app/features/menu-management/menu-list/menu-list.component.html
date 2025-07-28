@@ -1,0 +1,192 @@
+<p>menu-list works!</p>
+<div class="menu-list-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Menu Management</h1>
+      <p class="page-subtitle">Manage your restaurant's menu items and categories</p>
+    </div>
+    <div class="header-actions">
+      <button 
+        *ngIf="canEdit()" 
+        class="btn btn-primary" 
+        (click)="navigateToAdd()">
+        <span class="btn-icon">➕</span>
+        Add Menu Item
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-row">
+      <!-- Search -->
+      <div class="search-box">
+        <input 
+          type="text" 
+          [formControl]="searchControl"
+          placeholder="Search menu items..."
+          class="search-input">
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <select 
+          [(ngModel)]="selectedCategory" 
+          (change)="onCategoryChange(selectedCategory)"
+          class="filter-select">
+          <option value="all">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Status Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Status</label>
+        <select 
+          [(ngModel)]="selectedStatus" 
+          (change)="onStatusChange(selectedStatus)"
+          class="filter-select">
+          <option value="all">All Items</option>
+          <option value="available">Available</option>
+          <option value="unavailable">Unavailable</option>
+        </select>
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-group">
+        <label class="filter-label">Sort By</label>
+        <select 
+          [(ngModel)]="sortBy" 
+          (change)="onSortChange(sortBy)"
+          class="filter-select">
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="category">Category</option>
+          <option value="created">Date Added</option>
+        </select>
+      </div>
+
+      <!-- Clear Filters -->
+      <button class="btn btn-outline" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="results-summary">
+      <span class="results-count">
+        {{ filteredItems.length }} of {{ menuItems.length }} items
+      </span>
+      <span class="sort-direction" (click)="onSortChange(sortBy)">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-grid">
+    <div *ngFor="let i of [1,2,3,4,5,6]" class="loading-card">
+      <div class="loading-skeleton"></div>
+    </div>
+  </div>
+
+  <!-- Menu Items Grid -->
+  <div *ngIf="!isLoading" class="menu-grid">
+    <div *ngFor="let item of filteredItems; trackBy: trackByItem" 
+         class="menu-card"
+         [class.unavailable]="!item.isAvailable">
+      
+      <!-- Item Image -->
+      <div class="item-image">
+        <div class="image-placeholder">
+          <span class="image-icon">🍽️</span>
+        </div>
+        <div class="availability-badge" 
+             [class]="item.isAvailable ? 'available' : 'unavailable'">
+          {{ item.isAvailable ? 'Available' : 'Unavailable' }}
+        </div>
+      </div>
+
+      <!-- Item Info -->
+      <div class="item-info">
+        <div class="item-header">
+          <h3 class="item-name">{{ item.name }}</h3>
+          <span class="item-price">{{ formatPrice(item.price) }}</span>
+        </div>
+
+        <p class="item-description">{{ item.description }}</p>
+
+        <div class="item-meta">
+          <span class="item-category">{{ item.category.name }}</span>
+          <span class="prep-time">
+            <span class="meta-icon">⏱️</span>
+            {{ item.preparationTime }}min
+          </span>
+        </div>
+
+        <!-- Allergens -->
+        <div class="allergens" *ngIf="item.allergens.length > 0">
+          <span class="allergens-label">Allergens:</span>
+          <span *ngFor="let allergen of item.allergens; let last = last" 
+                class="allergen-tag">
+            {{ allergen }}<span *ngIf="!last">, </span>
+          </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="item-actions">
+          <button 
+            class="btn btn-sm btn-outline" 
+            (click)="navigateToDetails(item)">
+            View Details
+          </button>
+          
+          <button 
+            *ngIf="canEdit()" 
+            class="btn btn-sm btn-primary" 
+            (click)="navigateToEdit(item)">
+            Edit
+          </button>
+          
+          <button 
+            *ngIf="canEdit()" 
+            class="btn btn-sm"
+            [class]="item.isAvailable ? 'btn-warning' : 'btn-success'"
+            (click)="toggleAvailability(item)">
+            {{ item.isAvailable ? 'Disable' : 'Enable' }}
+          </button>
+          
+          <button 
+            *ngIf="canDelete()" 
+            class="btn btn-sm btn-danger" 
+            (click)="deleteItem(item)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && filteredItems.length === 0" class="empty-state">
+    <div class="empty-icon">🍽️</div>
+    <h3>No Menu Items Found</h3>
+    <p *ngIf="searchControl.value || selectedCategory !== 'all' || selectedStatus !== 'all'">
+      Try adjusting your filters or search terms.
+    </p>
+    <p *ngIf="!searchControl.value && selectedCategory === 'all' && selectedStatus === 'all'">
+      Get started by adding your first menu item.
+    </p>
+    <button 
+      *ngIf="canEdit()" 
+      class="btn btn-primary" 
+      (click)="navigateToAdd()">
+      Add First Menu Item
+    </button>
+  </div>
+</div>

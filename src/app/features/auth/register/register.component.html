@@ -1,0 +1,186 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <!-- Header -->
+    <div class="auth-header">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <h1>RestaurantPro</h1>
+      </div>
+      <p class="auth-subtitle">Create your account</p>
+    </div>
+
+    <!-- Register Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <!-- Name Fields -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName" class="form-label">First Name</label>
+          <div class="input-wrapper">
+            <input
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+              class="form-input"
+              [class.error]="getFieldError('firstName')"
+              placeholder="First name">
+            <span class="input-icon">👤</span>
+          </div>
+          <div class="field-error" *ngIf="getFieldError('firstName')">
+            {{ getFieldError('firstName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName" class="form-label">Last Name</label>
+          <div class="input-wrapper">
+            <input
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+              class="form-input"
+              [class.error]="getFieldError('lastName')"
+              placeholder="Last name">
+            <span class="input-icon">👤</span>
+          </div>
+          <div class="field-error" *ngIf="getFieldError('lastName')">
+            {{ getFieldError('lastName') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            [class.error]="getFieldError('email')"
+            placeholder="Enter your email">
+          <span class="input-icon">📧</span>
+        </div>
+        <div class="field-error" *ngIf="getFieldError('email')">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Phone Field -->
+      <div class="form-group">
+        <label for="phone" class="form-label">Phone Number</label>
+        <div class="input-wrapper">
+          <input
+            id="phone"
+            type="tel"
+            formControlName="phone"
+            class="form-input"
+            [class.error]="getFieldError('phone')"
+            placeholder="+1 (555) 123-4567">
+          <span class="input-icon">📱</span>
+        </div>
+        <div class="field-error" *ngIf="getFieldError('phone')">
+          {{ getFieldError('phone') }}
+        </div>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role" class="form-label">Role</label>
+        <div class="role-selection">
+          <div *ngFor="let role of userRoles" 
+               class="role-option"
+               [class.selected]="registerForm.get('role')?.value === role.value">
+            <input
+              type="radio"
+              [id]="role.value"
+              [value]="role.value"
+              formControlName="role"
+              class="role-input">
+            <label [for]="role.value" class="role-label">
+              <div class="role-header">
+                <span class="role-name">{{ role.label }}</span>
+              </div>
+              <span class="role-description">{{ role.description }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Fields -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-input"
+              [class.error]="getFieldError('password')"
+              placeholder="Enter password">
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()">
+              <span>{{ showPassword ? '👁️' : '👁️‍🗨️' }}</span>
+            </button>
+          </div>
+          <div class="field-error" *ngIf="getFieldError('password')">
+            {{ getFieldError('password') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <div class="input-wrapper">
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              class="form-input"
+              [class.error]="getFieldError('confirmPassword')"
+              placeholder="Confirm password">
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPasswordVisibility()">
+              <span>{{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}</span>
+            </button>
+          </div>
+          <div class="field-error" *ngIf="getFieldError('confirmPassword')">
+            {{ getFieldError('confirmPassword') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="isLoading"
+        [class.loading]="isLoading">
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading" class="loading-content">
+          <span class="spinner"></span>
+          Creating Account...
+        </span>
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="auth-footer">
+      <p>Already have an account? 
+        <button type="button" class="link-btn" (click)="navigateToLogin()">
+          Sign in here
+        </button>
+      </p>
+    </div>
+  </div>
+</div>

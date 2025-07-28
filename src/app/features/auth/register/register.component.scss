@@ -1,0 +1,100 @@
+@import '../login/login.component.scss';
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.role-selection {
+  display: grid;
+  gap: var(--space-3);
+
+  .role-option {
+    position: relative;
+
+    .role-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .role-label {
+      display: block;
+      padding: var(--space-4);
+      border: 2px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      background-color: var(--bg-primary);
+
+      &:hover {
+        border-color: var(--primary-300);
+        background-color: var(--primary-50);
+      }
+
+      .role-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-2);
+
+        .role-name {
+          font-weight: var(--font-weight-semibold);
+          color: var(--text-primary);
+          font-size: var(--text-base);
+        }
+      }
+
+      .role-description {
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+    }
+
+    &.selected .role-label {
+      border-color: var(--primary-500);
+      background-color: var(--primary-50);
+      
+      .role-name {
+        color: var(--primary-700);
+      }
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        top: var(--space-3);
+        right: var(--space-3);
+        width: 24px;
+        height: 24px;
+        background-color: var(--primary-500);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--text-sm);
+        font-weight: var(--font-weight-bold);
+      }
+    }
+  }
+}
+
+// Dark theme adjustments for register
+[data-theme="dark"] {
+  .role-option {
+    .role-label:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    &.selected .role-label {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+  }
+}

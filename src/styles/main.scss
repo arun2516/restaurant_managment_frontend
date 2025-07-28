@@ -1,0 +1,22 @@
+// Import all base styles
+@import 'base/reset';
+@import 'base/variables';
+@import 'base/typography';
+
+// Import layout styles
+@import 'layout/header';
+@import 'layout/sidebar';
+@import 'layout/main-layout';
+
+// Import component styles
+@import 'components/buttons';
+@import 'components/forms';
+@import 'components/cards';
+@import 'components/tables';
+@import 'components/modals';
+@import 'components/navigation';
+
+// Import utility styles
+@import 'utilities/animations';
+@import 'utilities/spacing';
+@import 'utilities/responsive';

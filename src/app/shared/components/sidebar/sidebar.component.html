@@ -1,0 +1,47 @@
+<nav class="sidebar-nav">
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <div class="logo" [class.collapsed]="isCollapsed">
+      <span class="logo-icon">🍽️</span>
+      <span class="logo-text" *ngIf="!isCollapsed">RestaurantPro</span>
+    </div>
+  </div>
+
+  <!-- User Info -->
+  <div class="user-info" *ngIf="currentUser && !isCollapsed">
+    <div class="user-avatar">
+      <span>{{ currentUser.firstName[0] }}{{ currentUser.lastName[0] }}</span>
+    </div>
+    <div class="user-details">
+      <h4>{{ currentUser.firstName }} {{ currentUser.lastName }}</h4>
+      <span class="user-role">{{ currentUser.role | titlecase }}</span>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <ul class="nav-menu">
+    <li *ngFor="let item of menuItems" 
+        class="nav-item"
+        [class.active]="isActiveRoute(item.route)"
+        [class.hidden]="!canAccessMenuItem(item)">
+      
+      <a class="nav-link" 
+         (click)="navigateTo(item.route)"
+         [title]="isCollapsed ? item.label : ''">
+        
+        <span class="nav-icon" [innerHTML]="getIcon(item.icon)"></span>
+        <span class="nav-text" *ngIf="!isCollapsed">{{ item.label }}</span>
+        
+        <!-- Active indicator -->
+        <div class="active-indicator" *ngIf="isActiveRoute(item.route)"></div>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Bottom Section -->
+  <div class="sidebar-bottom" *ngIf="!isCollapsed">
+    <div class="version-info">
+      <span class="text-sm text-tertiary">Version 1.0.0</span>
+    </div>
+  </div>
+</nav>

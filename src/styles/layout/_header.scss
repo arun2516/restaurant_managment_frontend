@@ -1,0 +1,108 @@
+/* Header Styles */
+.header-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background-color: transparent;
+    color: var(--text-secondary);
+    transition: all var(--transition-normal);
+
+    &:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .toggle-icon {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .breadcrumb {
+    .current-page {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+    }
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background-color: transparent;
+    transition: all var(--transition-normal);
+
+    &:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    .theme-icon {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .notifications {
+    position: relative;
+
+    .notification-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background-color: transparent;
+      transition: all var(--transition-normal);
+      position: relative;
+
+      &:hover {
+        background-color: var(--bg-tertiary);
+      }
+
+      .notification-icon {
+        font-size: var(--text-lg);
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background-color: var(--danger-500);
+        color: white;
+        font-size: var(--text-xs);
+        font-weight: var(--font-weight-bold);
+        padding: 2px 6px;
+        border-radius: var(--radius-full);
+        min-width: 18px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <!-- Header -->
+    <div class="auth-header">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <h1>RestaurantPro</h1>
+      </div>
+      <p class="auth-subtitle">Sign in to your account</p>
+    </div>
+
+    <!-- Demo Credentials -->
+    <div class="demo-section">
+      <h3>Quick Demo Access</h3>
+      <div class="demo-cards">
+        <div *ngFor="let demo of demoCredentials" 
+             class="demo-card" 
+             (click)="fillDemoCredentials(demo)">
+          <span class="demo-role">{{ demo.role }}</span>
+          <span class="demo-email">{{ demo.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            [class.error]="getFieldError('email')"
+            placeholder="Enter your email"
+            autocomplete="email">
+          <span class="input-icon">📧</span>
+        </div>
+        <div class="field-error" *ngIf="getFieldError('email')">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            [class.error]="getFieldError('password')"
+            placeholder="Enter your password"
+            autocomplete="current-password">
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()">
+            <span>{{ showPassword ? '👁️' : '👁️‍🗨️' }}</span>
+          </button>
+        </div>
+        <div class="field-error" *ngIf="getFieldError('password')">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="isLoading"
+        [class.loading]="isLoading">
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading" class="loading-content">
+          <span class="spinner"></span>
+          Signing In...
+        </span>
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="auth-footer">
+      <p>Don't have an account? 
+        <button type="button" class="link-btn" (click)="navigateToRegister()">
+          Sign up here
+        </button>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="main-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <app-sidebar 
+      [isCollapsed]="isSidebarCollapsed"
+      [currentUser]="currentUser">
+    </app-sidebar>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <app-header 
+        [currentUser]="currentUser"
+        [currentTheme]="currentTheme"
+        (toggleSidebar)="toggleSidebar()"
+        (toggleTheme)="toggleTheme()"
+        (logout)="logout()">
+      </app-header>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+      <!-- Overlay for mobile sidebar -->
+  <div class="sidebar-overlay" 
+       [class.active]="!isSidebarCollapsed" 
+       (click)="toggleSidebar()">
+  </div>
+</div>

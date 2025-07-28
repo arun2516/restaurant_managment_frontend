@@ -1,0 +1,60 @@
+<div class="header-container">
+  <!-- Left Section -->
+  <div class="header-left">
+    <button class="sidebar-toggle" (click)="onToggleSidebar()">
+      <span class="toggle-icon">☰</span>
+    </button>
+    
+    <div class="breadcrumb">
+      <!-- This will be enhanced later with breadcrumb service -->
+      <span class="current-page">Dashboard</span>
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="header-right">
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" (click)="onToggleTheme()" [title]="'Switch to ' + (currentTheme === 'light' ? 'dark' : 'light') + ' theme'">
+      <span class="theme-icon">{{ currentTheme === 'light' ? '🌙' : '☀️' }}</span>
+    </button>
+
+    <!-- Notifications -->
+    <div class="notifications">
+      <button class="notification-btn">
+        <span class="notification-icon">🔔</span>
+        <span class="notification-badge">3</span>
+      </button>
+    </div>
+
+    <!-- User Menu -->
+    <div class="user-menu" *ngIf="currentUser">
+      <button class="user-button" (click)="toggleUserDropdown()">
+        <div class="user-avatar">
+          <span>{{ currentUser.firstName[0] }}{{ currentUser.lastName[0] }}</span>
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</span>
+          <span class="user-role">{{ currentUser.role | titlecase }}</span>
+        </div>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+
+      <!-- User Dropdown -->
+      <div class="user-dropdown" [class.show]="showUserDropdown" (clickOutside)="closeUserDropdown()">
+        <a href="#" class="dropdown-item">
+          <span class="item-icon">👤</span>
+          Profile
+        </a>
+        <a href="#" class="dropdown-item">
+          <span class="item-icon">⚙️</span>
+          Settings
+        </a>
+        <hr class="dropdown-divider">
+        <button class="dropdown-item logout-btn" (click)="onLogout()">
+          <span class="item-icon">🚪</span>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
